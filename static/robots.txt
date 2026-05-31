@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://road-safety-hackathon-2026-x-iit-madras.onrender.com/sitemap.xml
+Sitemap: https://roadsos-iitm.onrender.com/sitemap.xml

@@ -3,7 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoadSoS - Emergency Road Assistance</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>{% block title %}RoadSoS - Emergency Road Assistance{% endblock %}</title>
+    <meta name="title" content="{% block meta_title %}RoadSoS - Emergency Road Assistance{% endblock %}">
+    <meta name="description" content="{% block description %}RoadSoS is a location-based emergency road assistance platform to find trauma centres, hospitals, police, ambulances, towing services, and puncture shops during the golden hour.{% endblock %}">
+    <meta name="keywords" content="road safety, emergency road assistance, trauma centres, ambulance locator, towing service, puncture repair, golden hour, first aid, IIT Madras hackathon">
+    <meta name="author" content="DhruvPatva1623">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{% block canonical_url %}https://road-safety-hackathon-2026-x-iit-madras.onrender.com/{% endblock %}">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{% block og_url %}https://road-safety-hackathon-2026-x-iit-madras.onrender.com/{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}RoadSoS - Emergency Road Assistance{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}RoadSoS is a location-based emergency road assistance platform to find trauma centres, hospitals, police, ambulances, towing services, and puncture shops during the golden hour.{% endblock %}">
+    <meta property="og:image" content="https://road-safety-hackathon-2026-x-iit-madras.onrender.com/static/css/images/og_preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{% block twitter_url %}https://road-safety-hackathon-2026-x-iit-madras.onrender.com/{% endblock %}">
+    <meta property="twitter:title" content="{% block twitter_title %}RoadSoS - Emergency Road Assistance{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}RoadSoS is a location-based emergency road assistance platform to find trauma centres, hospitals, police, ambulances, towing services, and puncture shops during the golden hour.{% endblock %}">
+    <meta property="twitter:image" content="https://road-safety-hackathon-2026-x-iit-madras.onrender.com/static/css/images/og_preview.png">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     {% block head %}{% endblock %}
 </head>
