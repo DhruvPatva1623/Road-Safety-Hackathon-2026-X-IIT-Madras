@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <p class="eyebrow">Location-Based Emergency Road Assistance Platform</p>
+        <h1>RoadSoS</h1>
+        <p class="hero-text">Quickly find trauma centres, ambulance services, police stations, vehicle rescue, puncture shops, showrooms, and emergency contacts during road accidents.</p>
+        <div class="hero-pills">
+            <span>Golden hour ready</span>
+            <span>Offline contacts</span>
+            <span>Global samples</span>
+        </div>
+    </div>
+    <div class="sos-stage">
+        <button class="sos-button" id="sosButton" aria-expanded="false">SOS</button>
+        <div class="sos-ring" id="sosWheel" aria-hidden="true">
+            <a class="wheel-item wheel-trauma" href="{{ url_for('emergency_map') }}?type=trauma_centres">Trauma</a>
+            <a class="wheel-item wheel-hospital" href="{{ url_for('emergency_map') }}?type=hospitals">Hospital</a>
+            <a class="wheel-item wheel-ambulance" href="{{ url_for('emergency_map') }}?type=ambulance_services">Ambulance</a>
+            <a class="wheel-item wheel-police" href="{{ url_for('emergency_map') }}?type=police_stations">Police</a>
+            <a class="wheel-item wheel-towing" href="{{ url_for('emergency_map') }}?type=towing_services">Towing</a>
+            <a class="wheel-item wheel-puncture" href="{{ url_for('emergency_map') }}?type=puncture_shops">Puncture</a>
+            <a class="wheel-item wheel-showroom" href="{{ url_for('emergency_map') }}?type=showrooms">Showroom</a>
+            <a class="wheel-item wheel-contact" href="{{ url_for('emergency_map') }}?type=emergency_contacts">Contacts</a>
+        </div>
+    </div>
+</section>
+
+<section class="quick-actions">
+    <a class="action-card trauma" href="{{ url_for('emergency_map') }}?type=trauma_centres">
+        <span>Trauma Centres</span>
+        <small>Golden hour priority</small>
+    </a>
+    <a class="action-card hospital" href="{{ url_for('emergency_map') }}?type=hospitals">
+        <span>Nearby Hospitals</span>
+        <small>Find medical help</small>
+    </a>
+    <a class="action-card police" href="{{ url_for('emergency_map') }}?type=police_stations">
+        <span>Police Stations</span>
+        <small>Get safety support</small>
+    </a>
+    <a class="action-card ambulance" href="{{ url_for('emergency_map') }}?type=ambulance_services">
+        <span>Ambulance Services</span>
+        <small>Call urgent transport</small>
+    </a>
+    <a class="action-card towing" href="{{ url_for('emergency_map') }}?type=towing_services">
+        <span>Towing Services</span>
+        <small>Vehicle breakdown help</small>
+    </a>
+    <a class="action-card puncture" href="{{ url_for('emergency_map') }}?type=puncture_shops">
+        <span>Puncture Shops</span>
+        <small>Tyre repair help</small>
+    </a>
+    <a class="action-card showroom" href="{{ url_for('emergency_map') }}?type=showrooms">
+        <span>Showrooms</span>
+        <small>Vehicle service contacts</small>
+    </a>
+    <a class="action-card emergency" href="{{ url_for('emergency_map') }}?type=emergency_contacts">
+        <span>Emergency Contacts</span>
+        <small>Country-wise numbers</small>
+    </a>
+</section>
+
+<section class="feature-grid">
+    <article class="feature-card">
+        <h2>Golden Hour Mode</h2>
+        <p>Starts a 60-minute response timer and shows the most important first actions for bystanders.</p>
+        <button class="secondary-btn" id="goldenHourButton">Start Timer</button>
+        <div id="goldenHourStatus" class="status-box">Timer not started</div>
+    </article>
+    <article class="feature-card">
+        <h2>Accident Report Builder</h2>
+        <p>Create a short message with location, injury level, vehicle issue, and needed services for fast sharing.</p>
+        <form id="reportForm" class="report-form">
+            <select id="injuryLevel">
+                <option value="Unknown injury level">Injury level</option>
+                <option value="Minor injuries">Minor injuries</option>
+                <option value="Serious injuries">Serious injuries</option>
+                <option value="Unconscious victim">Unconscious victim</option>
+            </select>
+            <select id="serviceNeed">
+                <option value="Need ambulance and police">Ambulance + police</option>
+                <option value="Need trauma centre">Trauma centre</option>
+                <option value="Need towing support">Towing support</option>
+                <option value="Need puncture repair">Puncture repair</option>
+            </select>
+            <input id="reportLocation" type="text" placeholder="Location or landmark">
+            <button type="submit" class="secondary-btn">Generate Report</button>
+        </form>
+        <textarea id="reportOutput" rows="4" readonly placeholder="Generated emergency report will appear here"></textarea>
+    </article>
+</section>
+
+<section class="offline-panel">
+    <h2>Offline Low-Network Support</h2>
+    <p>RoadSoS caches emergency contacts and the latest loaded service list in your browser so useful information remains visible when the network is weak.</p>
+    <div id="cachedContacts" class="contact-list"></div>
+</section>
+{% endblock %}

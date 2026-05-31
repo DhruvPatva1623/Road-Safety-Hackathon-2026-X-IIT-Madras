@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Emergency Map</h1>
+    <p>View nearby trauma care, hospitals, police, ambulance, vehicle rescue, puncture shops, showrooms, and emergency contacts.</p>
+</section>
+
+<section class="map-layout">
+    <div class="filter-panel">
+        <label for="countrySelect">Country</label>
+        <select id="countrySelect">
+            <option value="IN">India</option>
+            <option value="US">United States</option>
+            <option value="GB">United Kingdom</option>
+            <option value="ALL">All sample countries</option>
+        </select>
+        <div class="filter-note" id="countryEmergency">Emergency: 100 / 108</div>
+        <button class="filter-btn active" data-type="all">All</button>
+        <button class="filter-btn" data-type="trauma_centres">Trauma</button>
+        <button class="filter-btn" data-type="hospitals">Hospitals</button>
+        <button class="filter-btn" data-type="police_stations">Police</button>
+        <button class="filter-btn" data-type="ambulance_services">Ambulance</button>
+        <button class="filter-btn" data-type="towing_services">Towing</button>
+        <button class="filter-btn" data-type="puncture_shops">Puncture</button>
+        <button class="filter-btn" data-type="showrooms">Showrooms</button>
+        <button class="filter-btn" data-type="emergency_contacts">Contacts</button>
+        <button class="secondary-btn" id="nearestPriorityButton">Show Rescue Priority</button>
+    </div>
+    <div id="map"></div>
+    <div class="map-summary">
+        <strong id="summaryTitle">RoadSoS service intelligence</strong>
+        <p id="summaryText">Services are ranked using estimated response time, source freshness, and category priority.</p>
+    </div>
+    <div id="serviceList" class="service-list"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+{% endblock %}

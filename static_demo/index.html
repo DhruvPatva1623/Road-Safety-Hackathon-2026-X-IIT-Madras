@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoadSoS - Emergency Road Assistance</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="fluid-cursor" id="fluidCursor" aria-hidden="true"></div>
+    <nav class="navbar">
+        <a class="brand" href="#home">RoadSoS</a>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#response">Response</a>
+            <a href="#map">Map</a>
+            <a href="#chat">Chat</a>
+            <a href="#guidance">Guidance</a>
+            <button type="button" class="mode-toggle" id="themeToggle" aria-label="Toggle dark mode">Dark</button>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Location-Based Emergency Road Assistance Platform</p>
+                <h1>RoadSoS</h1>
+                <p class="hero-text">A location-first emergency response interface for finding trauma centres, hospitals, ambulance services, police stations, towing support, puncture shops, showrooms, and emergency contacts.</p>
+                <div class="hero-pills">
+                    <span>Golden hour ready</span>
+                    <span>Offline contacts</span>
+                    <span>Location aware</span>
+                </div>
+                <div class="road-motion" aria-hidden="true">
+                    <div class="road-line"></div>
+                    <div class="rescue-vehicle" id="serviceVehicle">
+                        <span id="serviceSymbol">AMB</span>
+                    </div>
+                    <div class="pulse-dot dot-one"></div>
+                    <div class="pulse-dot dot-two"></div>
+                </div>
+            </div>
+
+            <div class="sos-stage">
+                <button class="sos-button" id="sosButton" aria-expanded="false">SOS</button>
+                <div class="sos-ring" id="sosWheel" aria-hidden="true">
+                    <a class="wheel-item wheel-trauma" href="#map" data-wheel-type="trauma_centres">Trauma</a>
+                    <a class="wheel-item wheel-hospital" href="#map" data-wheel-type="hospitals">Hospital</a>
+                    <a class="wheel-item wheel-ambulance" href="#map" data-wheel-type="ambulance_services">Ambulance</a>
+                    <a class="wheel-item wheel-police" href="#map" data-wheel-type="police_stations">Police</a>
+                    <a class="wheel-item wheel-towing" href="#map" data-wheel-type="towing_services">Towing</a>
+                    <a class="wheel-item wheel-puncture" href="#map" data-wheel-type="puncture_shops">Puncture</a>
+                    <a class="wheel-item wheel-showroom" href="#map" data-wheel-type="showrooms">Showroom</a>
+                    <a class="wheel-item wheel-contact" href="#map" data-wheel-type="emergency_contacts">Contacts</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="quick-actions">
+            <button type="button" class="action-card trauma" data-response-type="golden_hour"><span>Golden Hour</span><small>Start crash checklist</small></button>
+            <button type="button" class="action-card hospital" data-response-type="hospital"><span>Hospitals</span><small>Find medical help</small></button>
+            <button type="button" class="action-card police" data-response-type="police"><span>Police</span><small>Secure accident scene</small></button>
+            <button type="button" class="action-card ambulance" data-response-type="ambulance"><span>Ambulance</span><small>Urgent transport</small></button>
+            <button type="button" class="action-card towing" data-response-type="towing"><span>Towing</span><small>Vehicle rescue</small></button>
+            <button type="button" class="action-card puncture" data-response-type="puncture"><span>Puncture</span><small>Tyre repair</small></button>
+            <button type="button" class="action-card showroom" data-response-type="showroom"><span>Showroom</span><small>Vehicle service</small></button>
+            <button type="button" class="action-card emergency" data-response-type="contacts"><span>Contacts</span><small>India emergency numbers</small></button>
+        </section>
+
+        <section id="response" class="page-section response-section">
+            <div class="page-header">
+                <h1>Quick Response</h1>
+                <p>Select a situation to open a focused action checklist and jump to matching nearby contacts.</p>
+            </div>
+            <div class="response-layout">
+                <div class="response-menu">
+                    <button type="button" class="response-btn active" data-response-type="golden_hour">Golden Hour</button>
+                    <button type="button" class="response-btn" data-response-type="ambulance">Ambulance</button>
+                    <button type="button" class="response-btn" data-response-type="hospital">Hospital</button>
+                    <button type="button" class="response-btn" data-response-type="police">Police</button>
+                    <button type="button" class="response-btn" data-response-type="towing">Towing</button>
+                    <button type="button" class="response-btn" data-response-type="puncture">Puncture</button>
+                    <button type="button" class="response-btn" data-response-type="showroom">Showroom</button>
+                    <button type="button" class="response-btn" data-response-type="contacts">Contacts</button>
+                </div>
+                <article class="response-card">
+                    <div class="response-card-head">
+                        <span id="responseBadge" class="badge">Golden Hour</span>
+                        <button type="button" class="secondary-btn" id="responseMapButton">Show Matching Contacts</button>
+                    </div>
+                    <h2 id="responseTitle">Golden Hour Crash Checklist</h2>
+                    <p id="responseText">Follow these actions in order while help is on the way.</p>
+                    <ol id="responseChecklist" class="response-checklist"></ol>
+                </article>
+            </div>
+        </section>
+
+        <section class="feature-grid">
+            <article class="feature-card">
+                <h2>Golden Hour Mode</h2>
+                <p>Starts a 60-minute response timer and shows the most important first actions for bystanders.</p>
+                <div class="timer-widget">
+                    <div class="timer-ring" id="timerRing">
+                        <span id="timerClock">60:00</span>
+                    </div>
+                    <div>
+                        <button type="button" class="secondary-btn" id="goldenHourButton">Start Timer</button>
+                        <button type="button" class="ghost-btn" id="resetTimerButton">Reset</button>
+                    </div>
+                </div>
+                <div id="goldenHourStatus" class="status-box">Timer not started</div>
+            </article>
+            <article class="feature-card">
+                <h2>Accident Report Builder</h2>
+                <p>Create a short message for quick sharing by SMS or phone call.</p>
+                <form id="reportForm" class="report-form">
+                    <select id="injuryLevel">
+                        <option value="Unknown injury level">Injury level</option>
+                        <option value="Minor injuries">Minor injuries</option>
+                        <option value="Serious injuries">Serious injuries</option>
+                        <option value="Unconscious victim">Unconscious victim</option>
+                    </select>
+                    <select id="serviceNeed">
+                        <option value="Need ambulance and police">Ambulance + police</option>
+                        <option value="Need trauma centre">Trauma centre</option>
+                        <option value="Need towing support">Towing support</option>
+                        <option value="Need puncture repair">Puncture repair</option>
+                    </select>
+                    <input id="reportLocation" type="text" placeholder="Location or landmark">
+                    <button type="submit" class="secondary-btn">Generate Report</button>
+                </form>
+                <textarea id="reportOutput" rows="4" readonly placeholder="Generated report will appear here"></textarea>
+            </article>
+        </section>
+
+        <section id="map" class="page-section">
+            <div class="page-header">
+                <h1>Emergency Map</h1>
+                <p>Locate nearby emergency services, compare response priority, and access critical contacts from one view.</p>
+            </div>
+            <section class="map-layout">
+                <div class="filter-panel">
+                    <label for="countrySelect">Country</label>
+                    <select id="countrySelect">
+                        <option value="IN">India</option>
+                    </select>
+                    <label for="stateSelect">State</label>
+                    <select id="stateSelect"></select>
+                    <label for="districtSelect">District</label>
+                    <select id="districtSelect"></select>
+                    <label for="areaSelect">Area</label>
+                    <select id="areaSelect"></select>
+                    <label for="landmarkInput">Landmark</label>
+                    <input id="landmarkInput" type="text" placeholder="e.g. AIIMS Gate 1">
+                    <div class="filter-note" id="countryEmergency">Emergency: 100 / 108</div>
+                    <button class="filter-btn active" data-type="all">All</button>
+                    <button class="filter-btn" data-type="trauma_centres">Trauma</button>
+                    <button class="filter-btn" data-type="hospitals">Hospitals</button>
+                    <button class="filter-btn" data-type="police_stations">Police</button>
+                    <button class="filter-btn" data-type="ambulance_services">Ambulance</button>
+                    <button class="filter-btn" data-type="towing_services">Towing</button>
+                    <button class="filter-btn" data-type="puncture_shops">Puncture</button>
+                    <button class="filter-btn" data-type="showrooms">Showrooms</button>
+                    <button class="filter-btn" data-type="emergency_contacts">Contacts</button>
+                    <button type="button" class="secondary-btn" id="locateButton">Use My Location</button>
+                    <button class="secondary-btn" id="nearestPriorityButton">Rescue Priority</button>
+                </div>
+                <div class="map-shell">
+                    <div id="mapBox"></div>
+                    <div id="fallbackMap" class="fallback-map" hidden>
+                        <div class="map-grid"></div>
+                        <div class="map-road road-main"></div>
+                        <div class="map-road road-cross"></div>
+                        <div class="map-road road-ring"></div>
+                        <div class="location-beacon" id="fallbackUserPin">You</div>
+                        <div id="fallbackPins"></div>
+                    </div>
+                </div>
+                <div class="map-summary">
+                    <strong id="summaryTitle">RoadSoS service intelligence</strong>
+                    <p id="summaryText">Services are ranked using service type and estimated response time.</p>
+                </div>
+                <div id="serviceList" class="service-list"></div>
+            </section>
+        </section>
+
+        <section id="chat" class="page-section">
+            <div class="page-header">
+                <h1>Emergency Chat Assistant</h1>
+                <p>Get instant first-response guidance for common road emergency situations.</p>
+            </div>
+            <section class="chat-box">
+                <div id="chatMessages" class="chat-messages">
+                    <div class="bot-message">Hello, I am the RoadSoS assistant. What emergency guidance do you need?</div>
+                </div>
+                <div class="chat-suggestions" aria-label="Common emergency chat prompts">
+                    <button type="button" data-chat-prompt="Need ambulance for accident">Ambulance</button>
+                    <button type="button" data-chat-prompt="Need nearest trauma centre">Trauma</button>
+                    <button type="button" data-chat-prompt="Heavy bleeding help">Bleeding</button>
+                    <button type="button" data-chat-prompt="Vehicle towing needed">Towing</button>
+                    <button type="button" data-chat-prompt="Police needed at accident scene">Police</button>
+                </div>
+                <form id="chatForm" class="chat-form">
+                    <input id="chatInput" type="text" placeholder="Type your message..." autocomplete="off" required>
+                    <button type="submit">Send</button>
+                </form>
+            </section>
+        </section>
+
+        <section id="guidance" class="page-section">
+            <div class="page-header">
+                <h1>Emergency Guidance</h1>
+                <p>Simple first-aid and road response reminders.</p>
+            </div>
+            <section class="guidance-grid">
+                <article class="guidance-card highlight"><h2>Golden Hour</h2><p>Call ambulance and police first. Share exact location, number of victims, visible injuries, and vehicle hazards.</p></article>
+                <article class="guidance-card highlight"><h2>Scene Safety</h2><p>Park away from traffic, switch on hazard lights, warn vehicles, avoid fuel leaks, and do not crowd the victim.</p></article>
+                <article class="guidance-card"><h2>CPR</h2><p>If trained, begin chest compressions in the center of the chest after calling emergency services.</p></article>
+                <article class="guidance-card"><h2>Bleeding</h2><p>Apply firm pressure with a clean cloth. Keep the injured area raised if possible.</p></article>
+                <article class="guidance-card"><h2>Burns</h2><p>Cool under clean running water for 20 minutes. Do not use ice, oil, or toothpaste.</p></article>
+                <article class="guidance-card"><h2>Fractures</h2><p>Keep the person still, support the injured area, and do not force the bone back.</p></article>
+            </section>
+        </section>
+
+        <section class="offline-panel">
+            <h2>Offline Low-Network Support</h2>
+            <p>RoadSoS caches emergency contacts in browser local storage after opening once, so important contacts remain accessible in low-network conditions.</p>
+            <div id="cachedContacts" class="contact-list"></div>
+        </section>
+    </main>
+
+    <footer class="footer">India emergency numbers: Police 100 | Ambulance 108 | Unified emergency 112</footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

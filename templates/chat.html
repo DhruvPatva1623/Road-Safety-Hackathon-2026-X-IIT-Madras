@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Emergency Chat Assistant</h1>
+    <p>Type a simple keyword like golden hour, bleeding, fracture, CPR, trauma, ambulance, towing, puncture, showroom, or offline.</p>
+</section>
+
+<section class="chat-box">
+    <div id="chatMessages" class="chat-messages">
+        <div class="bot-message">Hello, I am the RoadSoS helper. What emergency guidance do you need?</div>
+    </div>
+    <form id="chatForm" class="chat-form">
+        <input id="chatInput" type="text" placeholder="Type your message..." autocomplete="off" required>
+        <button type="submit">Send</button>
+    </form>
+</section>
+{% endblock %}
