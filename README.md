@@ -59,6 +59,15 @@ RoadSoS/
   README.md
 ```
 
+## Project Documentation
+
+Detailed project specifications, architectural designs, and protocols can be found here:
+
+- [Product Requirement Document (PRD)](docs/PRD.md): Product scope, vision, target audience, and roadmap.
+- [System Architecture & Workflows](docs/ARCHITECTURE.md): Structural blocks, database schemas, and client-server flowcharts.
+- [Security Policy](docs/SECURITY.md): Sanitization logic, query structures, and SQLi/XSS mitigations.
+- [Code of Conduct](CODE_OF_CONDUCT.md): Contribution guidelines and standards.
+
 ## Demo Keywords For Chat
 
 Try typing:
